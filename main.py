@@ -34,7 +34,6 @@ def conv_to_hex(num):
 
 
 A = conv_from_hex(ini_string1, b)
-
 B = conv_from_hex(ini_string2, b)
 # Print the result as a string
 print("A=", "".join(map(str, A)), "B=", "".join(map(str, B)))
@@ -53,8 +52,8 @@ def equalize(A, B):
 def addition(A, B):
     if len(A) != len(B):
         equalize(A, B)
-    print("A=", A)
-    print("B=", B)
+#    print("A=", A)
+#    print("B=", B)
     n = len(A)
     C = arr.array('I', [])
     carry = 0
@@ -77,7 +76,7 @@ def substraction(A, B):
     #    print("B=", B)
     n = len(A)
     D = arr.array('i', [])
-    if A < B:
+    if comparison(A, B) == -1: #A<B
         print("WRONG INPUT!!! A<B")
     else:
         borrow = 0
@@ -96,16 +95,21 @@ def substraction(A, B):
 # print("A-B=", conv_to_hex(D))
 
 def comparison(n_1, n_2):
+    if len(n_1) > len(n_2):
+        while len(n_1) != len(n_2):
+            n_2.insert(0, 0)  # add zeros to the beginning to equal the length
+    else:
+        while len(n_1) != len(n_2):
+            n_1.insert(0, 0)
     n = len(n_1)
     i = n - 1
     while n_1[i] == n_2[i]:
-        i -= 1
-        if i == -1:  # if equal
+        i -=1
+        if (i == -1): # if equal
             return 0
-    if n_1[i] > n_2[i]:  # if n_1 > n_2
+    if n_1[i] > n_2[i]: #if n_1 > n_2
         return 1
-    else:
-        return -1  # if n_1 < n_2
+    else: return -1 #if n_1 < n_2
 
 
 # print("A<B:", comparison(A,B))
@@ -132,18 +136,18 @@ def mul(A, B):
     j = 0
     for i in reversed(range(n)):
         temp = mulOneDigit(A, B[i])
-        print("i=", i)
+    #    print("i=", i)
         t = j
         while t > 0:
             temp.append(0)
             t = t - 1
-        print("temp=", temp)
+     #   print("temp=", temp)
         C = addition(C, temp)
         j = j + 1
     return C
 
 
-# E = mul(A, B)
+K = mul(A, B)
 # print("AxB=", conv_to_hex(E))
 
 def square(A):
@@ -165,13 +169,48 @@ def convert_to_bin(A):
     return B
 
 
-def convert_from_bin(A):
-    B = arr.array('I', [])
-    n = len(A)
+def convert_from_bin(numb):
+    res = arr.array('I', [])
+    n = len(numb)
     for i in range(n // w):
-        beg = A[:w]  # slice first 3 values to turn into one number
-        A = A[w:]
+        beg = numb[:w]  # slice first w values to turn into one number
+        numb = numb[w:]
         s = "".join(map(str, beg))  # turn elements to strings & join --> binary number
         s = int(s, 2)
-        B.append(s)
-    return B
+        res.append(s)
+    return res
+
+def num_to_bin_array(A):
+    a = bin(A)
+    conv = [int(x) for x in a[2:]]
+    return conv
+
+def division(A1,B1):
+    A1 = convert_to_bin(A1)
+    B1 = convert_to_bin(B1)
+    k = len(B1)
+    R = A1  #remainder
+    Q = arr.array('I', [])
+    print(comparison(R, B1))
+    while comparison(R, B1) >= 0:       #R>=B
+        print("AAAAAAAAAAAAAA")
+        t = len(R)
+        C1 = B1
+        for i in range(t - k):
+            C1.append(0) #shifting
+        if comparison(R, C1) == -1:     #R<C
+            t = t - 1                      #return on 1 bit back
+            C1 = B1
+            for j in range(t - k):
+                C1.append(0)            #shifting
+       # print("R?C=", comparison(R, C))
+        R = substraction(R, C1)
+        print("R=", R)
+        d = num_to_bin_array(2**(t-k))
+        print("d=", d)
+        Q = addition(Q, d)
+        print("Q=", Q)
+    return  Q, R
+
+F = division(K,B)
+print("(A*B)/B=", conv_to_hex(convert_from_bin(F[0])))
