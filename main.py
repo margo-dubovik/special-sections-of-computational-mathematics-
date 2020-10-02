@@ -17,24 +17,19 @@ ini_string1 = input()
 
 # Converting hex to 2^w
 def conv_from_hex(hex, b):
-    d = len(hex)
-    l = d//(w//4)
-    number = arr.array('I', [])
-    for i in range(l):
-        hex_1 = hex[(d - l):]
-        n = int(hex_1, 16)
+        n = int(hex, 16)
+        number = arr.array('I', [])
         while n > 0:
             number.insert(0, n % b)  # take remainder of division and add it leftmost of the array
             n = n // b
-        hex = hex[:(d - l)]
-    return number
+        return number
 
 def conv_to_hex(num):
     n = len(num)
     hex_new = 0
     for i in reversed(range(0, n)):
-        hex_new = hex_new + num[i] * b ** (n - i - 1)
-    hex_new = hex(hex_new)[2:]  # position from 2 to the end
+        hex_new = num[i] * b ** (n - i - 1) + hex_new
+    hex_new = hex(hex_new)[2:] #position from 2 to the end
     return hex_new
 
 
@@ -128,9 +123,9 @@ def mul(A, B):
     j=0
     for i in reversed(range(n)):
         temp = mulOneDigit(A, B[i])
-        print("i=",i)
+        print("i=", i)
         t = j
-        while t>0:
+        while t > 0:
             temp.append(0)
             t = t - 1
         print("temp=", temp)
