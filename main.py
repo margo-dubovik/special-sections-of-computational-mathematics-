@@ -153,7 +153,7 @@ def square(A):
 
 
 
-def convert_to_bin(A):
+def convert_to_bin(A):  #from 2^w to binary
     B = arr.array('I', [])
     n = len(A)
     for i in range(n):
@@ -165,7 +165,7 @@ def convert_to_bin(A):
     return B
 
 
-def convert_from_bin(A):
+def convert_from_bin(A): #from binary to 2^w
     # print("w=", w)
     B = arr.array('I', [])
     n = len(A)
@@ -181,13 +181,13 @@ def convert_from_bin(A):
     return B
 
 
-def degree_of_two_bin_array(A):
+def degree_of_two_bin_array(A):  #quick way to represent 2^A as array
     conv = [0 for i in range(A + 1)]
     conv[0] = 1
     return conv
 
 
-def ext(Arr, l):  # to extend the erray with given amount of zeros
+def ext(Arr, l):  # to extend the array with given amount of zeros
     Arr1 = Arr[:]
     for j in range(l):
         Arr1.append(0)
