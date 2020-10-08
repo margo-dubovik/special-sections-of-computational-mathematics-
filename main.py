@@ -36,7 +36,7 @@ def conv_to_hex(num):
 A = conv_from_hex(ini_string1, b)
 B = conv_from_hex(ini_string2, b)
 # Print the result as a string
-print("A=", "".join(map(str, A)), "B=", "".join(map(str, B)))
+#print("A=", "".join(map(str, A)), "B=", "".join(map(str, B)))
 
 
 # Equalize two numbers` length
@@ -124,7 +124,7 @@ def mulOneDigit(A, d):
     for i in reversed(range(n)):
         temp = A[i] * d + carry
         C.insert(0, temp & (b - 1))
-        carry = temp >> w  # скільки значущих біт містить carry?
+        carry = temp >> w
     C.insert(0, carry)
     return C
 
@@ -137,7 +137,6 @@ def mul(A, B):
     j = 0
     for i in reversed(range(n)):
         temp = mulOneDigit(A, B[i])
-        #    print("i=", i)
         t = j
         while t > 0:
             temp.append(0)
@@ -153,7 +152,6 @@ def square(A):
     return C
 
 
-# print("A^2=", string_to_hex(square(A)))
 
 def convert_to_bin(A):
     B = arr.array('I', [])
@@ -178,7 +176,6 @@ def convert_from_bin(A):
         beg = A[:w]  # slice first 3 values to turn into one number
         A = A[w:]
         s = "".join(map(str, beg))  # turn elements to strings & join --> binary number
-        print(s)
         s = int(s, 2)
         B.append(s)
     return B
@@ -232,12 +229,30 @@ def division(A1, B1):
     return Q, R
 
 
+def degree_of_long(A1, B1):
+    B1 = convert_to_bin(B1)
+    # remove_start_zeros(A1)   #(надо?)
+    remove_start_zeros(B1)
+    m = len(B1)
+    C1 = arr.array('I', [1])
+    for i in reversed(range(m)):
+        if B1[i] == 1:
+            C1 = mul(C1, A1)
+        A1 = mul(A1, A1)
+    return C1
+
+
 Addition = addition(A, B)
 Sub = substraction(A, B, b)
 Mul = mul(A, B)
 Div = division(Mul, B)
+#Deg = degree_of_long(A, B)
 
 print("A+B=", "".join(map(str, conv_to_hex(Addition))))
+print("A+B=", conv_to_hex(Addition))
 print("A-B=", conv_to_hex(Sub))
 print("AxB=", conv_to_hex(Mul))
+print("A/B=", conv_to_hex(convert_from_bin(division(A, B)[0])))
 print("(A*B)/B=", conv_to_hex(convert_from_bin(Div[0])))
+#print("A^B=", conv_to_hex(Deg))
+print("A^2=", conv_to_hex(square(A)))
