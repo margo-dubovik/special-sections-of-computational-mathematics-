@@ -256,3 +256,28 @@ print("A/B=", conv_to_hex(convert_from_bin(division(A, B)[0])))
 print("(A*B)/B=", conv_to_hex(convert_from_bin(Div[0])))
 #print("A^B=", conv_to_hex(Deg))
 print("A^2=", conv_to_hex(square(A)))
+
+print("insert hex string N for tests:")
+ini_stringC = input()
+N = conv_from_hex(ini_stringC, b)
+
+print("insert hex string T=110 for tests: (6E)")
+ini_stringT = input()
+T = conv_from_hex(ini_stringT, b)
+
+def test_func():
+    a_n = A_n_times(A, 110)
+    test1 = comparison(mul(A, T), a_n)
+    print("A*n =?= A+..+A n times: ", test1)
+    test2 = comparison(convert_from_bin(Div[0]), A)
+    print("(A*B)/B=?A: ", test2)
+    test3 = comparison(mul(N, Addition), addition(mul(A, N), mul(B, N)))
+    print("(A+B)*C=?=A*B+A*C:", test3)
+
+def A_n_times(A, n):
+    F = A[:]
+    for i in range(n-1):
+        F = addition(F, A)
+    return F
+
+test_func()
