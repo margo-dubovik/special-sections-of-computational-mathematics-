@@ -28,15 +28,17 @@ def conv_to_hex(num):
     n = len(num)
     hex_new = 0
     for i in reversed(range(0, n)):
-        hex_new = num[i] * b ** (n - i - 1) + hex_new
+        hex_new = num[i] * (b ** (n - i - 1)) + hex_new
     hex_new = hex(hex_new)[2:]  # position from 2 to the end
     return hex_new
 
 
 A = conv_from_hex(ini_string1, b)
 B = conv_from_hex(ini_string2, b)
+
+
 # Print the result as a string
-#print("A=", "".join(map(str, A)), "B=", "".join(map(str, B)))
+# print("A=", "".join(map(str, A)), "B=", "".join(map(str, B)))
 
 
 # Equalize two numbers` length
@@ -152,8 +154,7 @@ def square(A):
     return C
 
 
-
-def convert_to_bin(A):
+def convert_to_bin(A):  # from 2^w to binary
     B = arr.array('I', [])
     n = len(A)
     for i in range(n):
@@ -165,7 +166,7 @@ def convert_to_bin(A):
     return B
 
 
-def convert_from_bin(A):
+def convert_from_bin(A):  # from binary to 2^w
     # print("w=", w)
     B = arr.array('I', [])
     n = len(A)
@@ -181,13 +182,13 @@ def convert_from_bin(A):
     return B
 
 
-def degree_of_two_bin_array(A):
+def degree_of_two_bin_array(A):  # quick way to represent 2^A as array
     conv = [0 for i in range(A + 1)]
     conv[0] = 1
     return conv
 
 
-def ext(Arr, l):  # to extend the erray with given amount of zeros
+def ext(Arr, l):  # to extend the array with given amount of zeros
     Arr1 = Arr[:]
     for j in range(l):
         Arr1.append(0)
@@ -246,7 +247,7 @@ Addition = addition(A, B)
 Sub = substraction(A, B, b)
 Mul = mul(A, B)
 Div = division(Mul, B)
-#Deg = degree_of_long(A, B)
+# Deg = degree_of_long(A, B)
 
 print("A+B=", "".join(map(str, conv_to_hex(Addition))))
 print("A+B=", conv_to_hex(Addition))
@@ -254,5 +255,30 @@ print("A-B=", conv_to_hex(Sub))
 print("AxB=", conv_to_hex(Mul))
 print("A/B=", conv_to_hex(convert_from_bin(division(A, B)[0])))
 print("(A*B)/B=", conv_to_hex(convert_from_bin(Div[0])))
-#print("A^B=", conv_to_hex(Deg))
+# print("A^B=", conv_to_hex(Deg))
 print("A^2=", conv_to_hex(square(A)))
+
+print("insert hex string N for tests:")
+ini_stringC = input()
+N = conv_from_hex(ini_stringC, b)
+
+print("insert hex string T=110 for tests: (6E)")
+ini_stringT = input()
+T = conv_from_hex(ini_stringT, b)
+
+def test_func():
+    a_n = A_n_times(A, 110)
+    test1 = comparison(mul(A, T), a_n)
+    print("A*n =?= A+..+A n times: ", test1)
+    test2 = comparison(convert_from_bin(Div[0]), A)
+    print("(A*B)/B=?A: ", test2)
+    test3 = comparison(mul(N, Addition), addition(mul(A, N), mul(B, N)))
+    print("(A+B)*C=?=A*B+A*C:", test3)
+
+def A_n_times(A, n):
+    F = A[:]
+    for i in range(n-1):
+        F = addition(F, A)
+    return F
+
+test_func()
