@@ -59,15 +59,12 @@ def addition(A, B):
     carry = 0
     for i in reversed(range(n)):
         temp = A[i] + B[i] + carry
-        C.insert(0, temp & (b - 1))  # WHY??????????
+        C.insert(0, temp & (b - 1))
         carry = temp >> w
     if carry != 0:  C.insert(0, carry)  # if the result is bigger than the incomes
 
     return C
 
-
-# C = addition(A, B)
-# print("A+B=", "".join(map(str, conv_to_hex(C))))
 
 def substraction(A, B, c):
     if len(A) != len(B):
@@ -91,8 +88,7 @@ def substraction(A, B, c):
     return D
 
 
-# D = substraction(A, B)
-# print("A-B=", conv_to_hex(D))
+
 
 def comparison(n_1, n_2):
     if len(n_1) > len(n_2):
@@ -231,7 +227,6 @@ def division(A1, B1):
 
 def degree_of_long(A1, B1):
     B1 = convert_to_bin(B1)
-    # remove_start_zeros(A1)   #(надо?)
     remove_start_zeros(B1)
     m = len(B1)
     C1 = arr.array('I', [1])
