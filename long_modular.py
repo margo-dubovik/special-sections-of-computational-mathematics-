@@ -1,12 +1,12 @@
 import array as arr
 import long_basic as lb
 
-print("insert power of 2 for system base:") # Initialising system base
+print("insert power of 2 for system base:")  # Initialising system base
 w = int(input())
 b = 2 ** w
 print("b=", b)
 
-print("insert hex string 1:") # Initialising hex string
+print("insert hex string 1:")  # Initialising hex string
 ini_string1 = input()
 
 print("insert hex string 2:")
