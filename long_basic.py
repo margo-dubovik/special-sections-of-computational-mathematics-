@@ -1,17 +1,15 @@
 import array as arr
 
-# Initialising system base
-print("insert power of 2 for system base:")
+print("insert power of 2 for system base:") # Initialising system base
 w = int(input())
 b = 2 ** w
-print("b=", b)
-
-# Initialising hex string
-print("insert hex string 1:")
-ini_string1 = input()
-
-print("insert hex string 2:")
-ini_string2 = input()
+# print("b=", b)
+#
+# print("insert hex string 1:") # Initialising hex strings
+# ini_string1 = input()
+#
+# print("insert hex string 2:")
+# ini_string2 = input()
 
 
 # Converting hex to 2^w
@@ -28,15 +26,17 @@ def conv_to_hex(num):
     n = len(num)
     hex_new = 0
     for i in reversed(range(0, n)):
-        hex_new = num[i] * b ** (n - i - 1) + hex_new
+        hex_new = num[i] * (b ** (n - i - 1)) + hex_new
     hex_new = hex(hex_new)[2:]  # position from 2 to the end
     return hex_new
 
 
-A = conv_from_hex(ini_string1, b)
-B = conv_from_hex(ini_string2, b)
+# A = conv_from_hex(ini_string1, b)
+# B = conv_from_hex(ini_string2, b)
+
+
 # Print the result as a string
-#print("A=", "".join(map(str, A)), "B=", "".join(map(str, B)))
+# print("A=", "".join(map(str, A)), "B=", "".join(map(str, B)))
 
 
 # Equalize two numbers` length
@@ -66,7 +66,7 @@ def addition(A, B):
     return C
 
 
-def substraction(A, B, c): # c - system base
+def substraction(A, B, c):
     if len(A) != len(B):
         equalize(A, B)
     #    print("A=", A)
@@ -86,7 +86,6 @@ def substraction(A, B, c): # c - system base
                 D.insert(0, c + temp)
                 borrow = 1
     return D
-
 
 
 def comparison(n_1, n_2):
@@ -141,13 +140,13 @@ def mul(A, B):
         j = j + 1
     return C
 
+
 def square(A):
     C = mul(A, A)
     return C
 
 
-
-def convert_to_bin(A):  #from 2^w to binary
+def convert_to_bin(A):  # from 2^w to binary
     B = arr.array('I', [])
     n = len(A)
     for i in range(n):
@@ -159,7 +158,7 @@ def convert_to_bin(A):  #from 2^w to binary
     return B
 
 
-def convert_from_bin(A): #from binary to 2^w
+def convert_from_bin(A):  # from binary to 2^w
     # print("w=", w)
     B = arr.array('I', [])
     n = len(A)
@@ -175,7 +174,7 @@ def convert_from_bin(A): #from binary to 2^w
     return B
 
 
-def degree_of_two_bin_array(A):  #quick way to represent 2^A as array
+def degree_of_two_bin_array(A):  # quick way to represent 2^A as array
     conv = [0 for i in range(A + 1)]
     conv[0] = 1
     return conv
@@ -234,123 +233,45 @@ def degree_of_long(A1, B1):
         A1 = mul(A1, A1)
     return C1
 
-def is_even (N):
-    l = len(N)
-    if N[l-1] % 2 == 0:  #last number is a multiple of 2 --> number is even
-        return 1
-    else: return 0 #else: odd
 
-def abs_substraction(A1, B1, c): #c - system base
-    if len(A1) != len(B1):
-        equalize(A1, B1)
-    n = len(A1)
-    if comparison(A1, B1) == -1:  # A<B
-        D = substraction(B1, A1, c)
-    else:
-        D = substraction(A1, B1, c)
-    return D
+# Addition = addition(A, B)
+# Sub = substraction(A, B, b)
+# Mul = mul(A, B)
+# Div = division(Mul, B)
+# Deg = degree_of_long(A, B)
 
-def min_number(A1, B1):
-    if comparison(A1, B1) == -1:  # A<B
-        return A1
-    else: return B1
-
-def division_bin(A1, B1): #division of binary input
-    remove_start_zeros(A1)
-    remove_start_zeros(B1)
-    k = len(B1)
-    R = A1[:]  # copy A1 to R
-    Q = arr.array('I', [])
-    while comparison(R, B1) >= 0:  # R>=B
-        remove_start_zeros(R)
-        remove_start_zeros(B1)
-        t = len(R)
-        C1 = ext(B1, t - k)  # shifting
-        if comparison(R, C1) == -1:  # R<C
-            t = t - 1  # return on 1 bit back
-            C1 = ext(B1, t - k)  # shifting
-        R = substraction(R, C1, 2)
-        remove_start_zeros(R)
-        d = degree_of_two_bin_array(t - k)  # d = 2^(t-k) in binary
-        Q = addition(Q, d)
-    return Q, R
-
-def addition_bin(A, B):
-    if len(A) != len(B):
-        equalize(A, B)
-    n = len(A)
-    C = arr.array('I', [])
-    carry = 0
-    for i in reversed(range(n)):
-        temp = A[i] + B[i] + carry
-        C.insert(0, temp & (1))
-        carry = temp >> 1
-    if carry != 0:  C.insert(0, carry)  # if the result is bigger than the incomes
-
-    return C
-
-def mulOneDigit_bin(A, d):
-    C = arr.array('I', [])
-    n = len(A)
-    carry = 0
-    for i in reversed(range(n)):
-        temp = A[i] * d + carry
-        C.insert(0, temp & (1))
-        carry = temp >> 1
-    C.insert(0, carry)
-    return C
+# print("A+B=", "".join(map(str, conv_to_hex(Addition))))
+# print("A+B=", conv_to_hex(Addition))
+# print("A-B=", conv_to_hex(Sub))
+# print("AxB=", conv_to_hex(Mul))
+# print("A/B=", conv_to_hex(convert_from_bin(division(A, B)[0])))
+# print("(A*B)/B=", conv_to_hex(convert_from_bin(Div[0])))
+# # print("A^B=", conv_to_hex(Deg))
+# print("A^2=", conv_to_hex(square(A)))
 
 
-def mul_bin(A, B):
-    if len(A) != len(B):
-        equalize(A, B)
-    n = len(A)
-    C = arr.array('I', [])
-    j = 0
-    for i in reversed(range(n)):
-        temp = mulOneDigit_bin(A, B[i])
-        t = j
-        while t > 0:
-            temp.append(0)
-            t = t - 1
-        C = addition_bin(C, temp)
-        j = j + 1
-    return C
+# print("insert hex string N for tests:")
+# ini_stringC = input()
+# N = conv_from_hex(ini_stringC, b)
+#
+# print("insert hex string T=110 for tests: (6E)")
+# ini_stringT = input()
+# T = conv_from_hex(ini_stringT, b)
 
-def gcd(X1,Y1): #Greatest Common Divisor. input&output are binary
-    remove_start_zeros(X1)
-    remove_start_zeros(Y1)
-    d = arr.array('I', [1])
-    X = X1[:]
-    Y = Y1[:]
-    while (is_even(X) &  is_even(Y)) == 1: #while X&Y are even
-        del X[-1]  #remove last item which 1s zero = X/2
-        del Y[-1] #Y/2
-        d.append(0)  #d*2 = add zero to the end
-    while is_even(X) == 1: #while X is even
-        del X[-1]
-    while comparison(Y, [0])!=0: #while Y != 0
-        while is_even(Y) == 1: #while Y is even
-            del Y[-1]
-        X2 = min_number(X, Y)
-        remove_start_zeros(X2)
-        Y2 = abs_substraction(X, Y, 2)
-        remove_start_zeros(Y2)
-        return remove_start_zeros(mul_bin(d, gcd(X2, Y2)))
-    d = mul_bin(d, X)
-    return d
+# def test_func():
+#     a_n = A_n_times(A, 110)
+#     test1 = comparison(mul(A, T), a_n)
+#     print("A*n =?= A+..+A n times: ", test1)
+#     test2 = comparison(convert_from_bin(Div[0]), A)
+#     print("(A*B)/B=?A: ", test2)
+#     test3 = comparison(mul(N, Addition), addition(mul(A, N), mul(B, N)))
+#     print("(A+B)*C=?=A*B+A*C:", test3)
 
-#lcm(a,b) = (a*b)/gcd(a,b)
-def lcm(X1, Y1):  #Least Common Multiplier. input&output binary
-    l = arr.array('I', [])
-    remove_start_zeros(X1)
-    remove_start_zeros(Y1)
-    d = gcd(X1, Y1)
-    l_1 = mul_bin(X1, Y1)
-    l = division_bin(l_1, d)[0]
-    return l
 
-# A_conv = convert_to_bin(A)
-# B_conv = convert_to_bin(B)
-# print("gcd:", conv_to_hex(convert_from_bin(gcd(A_conv, B_conv))))
-# print("lcm:", conv_to_hex(convert_from_bin(lcm(A_conv, B_conv))))
+def A_n_times(A, n):
+    F = A[:]
+    for i in range(n - 1):
+        F = addition(F, A)
+    return F
+
+# test_func()

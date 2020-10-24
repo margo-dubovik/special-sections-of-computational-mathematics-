@@ -1,13 +1,11 @@
 import array as arr
 
-# Initialising system base
-print("insert power of 2 for system base:")
+print("insert power of 2 for system base:") # Initialising system base
 w = int(input())
 b = 2 ** w
 print("b=", b)
 
-# Initialising hex string
-print("insert hex string 1:")
+print("insert hex string 1:") # Initialising hex strings
 ini_string1 = input()
 
 print("insert hex string 2:")
@@ -28,15 +26,17 @@ def conv_to_hex(num):
     n = len(num)
     hex_new = 0
     for i in reversed(range(0, n)):
-        hex_new = num[i] * b ** (n - i - 1) + hex_new
+        hex_new = num[i] * (b ** (n - i - 1)) + hex_new
     hex_new = hex(hex_new)[2:]  # position from 2 to the end
     return hex_new
 
 
 A = conv_from_hex(ini_string1, b)
 B = conv_from_hex(ini_string2, b)
+
+
 # Print the result as a string
-#print("A=", "".join(map(str, A)), "B=", "".join(map(str, B)))
+# print("A=", "".join(map(str, A)), "B=", "".join(map(str, B)))
 
 
 # Equalize two numbers` length
@@ -59,15 +59,12 @@ def addition(A, B):
     carry = 0
     for i in reversed(range(n)):
         temp = A[i] + B[i] + carry
-        C.insert(0, temp & (b - 1))  # WHY??????????
+        C.insert(0, temp & (b - 1))
         carry = temp >> w
     if carry != 0:  C.insert(0, carry)  # if the result is bigger than the incomes
 
     return C
 
-
-# C = addition(A, B)
-# print("A+B=", "".join(map(str, conv_to_hex(C))))
 
 def substraction(A, B, c):
     if len(A) != len(B):
@@ -91,9 +88,6 @@ def substraction(A, B, c):
     return D
 
 
-# D = substraction(A, B)
-# print("A-B=", conv_to_hex(D))
-
 def comparison(n_1, n_2):
     if len(n_1) > len(n_2):
         while len(n_1) != len(n_2):
@@ -105,12 +99,13 @@ def comparison(n_1, n_2):
     i = 0
     while n_1[i] == n_2[i]:
         i += 1
-        if (i == n - 1):  # if equal
+        if (i == n):  # if equal
             return 0
     if n_1[i] > n_2[i]:  # if n_1 > n_2
         return 1
     else:
         return -1  # if n_1 < n_2
+
 
 
 # print("A<B:", comparison(A,B))
@@ -152,8 +147,7 @@ def square(A):
     return C
 
 
-
-def convert_to_bin(A):  #from 2^w to binary
+def convert_to_bin(A):  # from 2^w to binary
     B = arr.array('I', [])
     n = len(A)
     for i in range(n):
@@ -165,7 +159,7 @@ def convert_to_bin(A):  #from 2^w to binary
     return B
 
 
-def convert_from_bin(A): #from binary to 2^w
+def convert_from_bin(A):  # from binary to 2^w
     # print("w=", w)
     B = arr.array('I', [])
     n = len(A)
@@ -181,7 +175,7 @@ def convert_from_bin(A): #from binary to 2^w
     return B
 
 
-def degree_of_two_bin_array(A):  #quick way to represent 2^A as array
+def degree_of_two_bin_array(A):  # quick way to represent 2^A as array
     conv = [0 for i in range(A + 1)]
     conv[0] = 1
     return conv
@@ -231,7 +225,6 @@ def division(A1, B1):
 
 def degree_of_long(A1, B1):
     B1 = convert_to_bin(B1)
-    # remove_start_zeros(A1)   #(надо?)
     remove_start_zeros(B1)
     m = len(B1)
     C1 = arr.array('I', [1])
@@ -246,7 +239,7 @@ Addition = addition(A, B)
 Sub = substraction(A, B, b)
 Mul = mul(A, B)
 Div = division(Mul, B)
-#Deg = degree_of_long(A, B)
+# Deg = degree_of_long(A, B)
 
 print("A+B=", "".join(map(str, conv_to_hex(Addition))))
 print("A+B=", conv_to_hex(Addition))
@@ -254,7 +247,7 @@ print("A-B=", conv_to_hex(Sub))
 print("AxB=", conv_to_hex(Mul))
 print("A/B=", conv_to_hex(convert_from_bin(division(A, B)[0])))
 print("(A*B)/B=", conv_to_hex(convert_from_bin(Div[0])))
-#print("A^B=", conv_to_hex(Deg))
+# print("A^B=", conv_to_hex(Deg))
 print("A^2=", conv_to_hex(square(A)))
 
 print("insert hex string N for tests:")
