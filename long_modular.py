@@ -18,7 +18,7 @@ B = lb.conv_from_hex(ini_string2, b)
 
 def is_even(N):
     l = len(N)
-    if N[l - 1] % 2 == 0:  # last number is a multiple of 2 --> number is even
+    if N[l - 1] % 2 == 0:   # last number is a multiple of 2 --> number is even
         return 1
     else:
         return 0  # else: odd
