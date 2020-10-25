@@ -145,3 +145,45 @@ A_conv = lb.convert_to_bin(A)
 B_conv = lb.convert_to_bin(B)
 print("gcd:", lb.conv_to_hex(lb.convert_from_bin(gcd(A_conv, B_conv))))
 print("lcm:", lb.conv_to_hex(lb.convert_from_bin(lcm(A_conv, B_conv))))
+
+def conv_from_int(n, b):
+    number = arr.array('I', [])
+    while n > 0:
+        number.insert(0, n % b)  # take remainder of division and add it leftmost of the array
+        n = n // b
+    return number
+
+def miu(N): #miu = (b**2k)%N
+    lb.remove_start_zeros(N)
+    k = len(N)
+    b_arr = arr.array('I', [1, 0])
+    k_1 = conv_from_int(2*k, b)
+    b_1 = lb.degree_of_long(b_arr, k_1)   #b**(2*k)
+    lb.remove_start_zeros(b_1)
+    return lb.convert_from_bin(lb.division(b_1, N)[0])
+
+
+def remove_last_digits(X, l):
+    k = len(X)
+    X1 = X[:(k - l)]
+    return X1
+
+
+def barrett_reduction(X, N, M):  # r = XmodN, M=miu(N)
+    #    print("miu=", M)
+    lb.remove_start_zeros(X)
+    lb.remove_start_zeros(N)
+    k = len(N)
+    while len(X) != 2 * k:  # so that |N|=k, |X|=2k
+        X.insert(0, 0)
+    Q = remove_last_digits(X, k - 1)
+    Q = lb.mul(Q, M)
+    Q = remove_last_digits(Q, k + 1)
+    t = lb.mul(Q, N)
+    R = lb.substraction(X, t, b)
+    while lb.comparison(R, N) != -1:
+        R = lb.substraction(R, N, b)
+    return R
+
+
+print("A mod B =", lb.conv_to_hex(barrett_reduction(A, B, miu(B))))
