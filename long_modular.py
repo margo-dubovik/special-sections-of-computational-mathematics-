@@ -183,7 +183,63 @@ def barrett_reduction(X, N, M):  # r = XmodN, M=miu(N)
     R = lb.substraction(X, t, b)
     while lb.comparison(R, N) != -1:
         R = lb.substraction(R, N, b)
+    lb.remove_start_zeros(R)
     return R
 
 
 print("A mod B =", lb.conv_to_hex(barrett_reduction(A, B, miu(B))))
+
+
+def addition_modular(X1, Y1, N, M):
+    X = barrett_reduction(X1, N, M)
+    Y = barrett_reduction(Y1, N, M)
+    Z1 = lb.addition(X, Y)
+    Z = barrett_reduction(Z1, N, M)
+    return Z
+
+
+def substraction_modular(X1, Y1, N, M):
+    X = barrett_reduction(X1, N, M)
+    Y = barrett_reduction(Y1, N, M)
+    Z1 = abs_substraction(X, Y, b)
+    Z = barrett_reduction(Z1, N, M)
+    return Z
+
+
+def mul_modular(X1, Y1, N, M):
+    X = barrett_reduction(X1, N, M)
+    Y = barrett_reduction(Y1, N, M)
+    Z1 = lb.mul(X, Y)
+    Z = barrett_reduction(Z1, N, M)
+    return Z
+
+
+def square_modular(X1, N, M):
+    X = barrett_reduction(X1, N, M)
+    Z1 = lb.square(X)
+    Z = barrett_reduction(Z1, N, M)
+    return Z
+
+
+def degree_of_long_modular(X, Y1, N, M):
+    Y = lb.convert_to_bin(Y1)
+    lb.remove_start_zeros(Y)
+    Z = arr.array('I', [1])
+    m = len(Y)
+    for i in range(m):
+        if Y[i] == 1:
+            Z = barrett_reduction(lb.mul(Z, X), N, M)
+        X = barrett_reduction(lb.mul(X, X), N, M)
+    return Z
+
+
+print("insert module for modular operations:")
+inp_module = input()
+#inp_module = 'FAAE2DBD9EECEE161154B081A68CB675BFC633DF8811446F22C2AB317B4F76CFFC36AF3078C795EBB23EEB59DEA12EA2E2E7F05426B9FA209A9EF21DFBB4111A49F75684193CF705FE0B1E4A96E88733981ECE3AABEC42506A92B199681392882EF5180A5EF518373DA17D712E9BF3936FBCAB1AF13BB215DA73B29B80D36DCA'
+N = lb.conv_from_hex(inp_module, b)
+M = miu(N)
+
+# print("(A+B)mod N =", conv_to_hex(addition_modular(A, B, N, M)))
+# print("(A-B)mod N =", conv_to_hex(substraction_modular(A, B, N, M)))
+# print("(A*B)mod N =", conv_to_hex(mul_modular(A, B, N, M)))
+# print("(A^2)mod N =", conv_to_hex(square_modular(A, N, M)))
