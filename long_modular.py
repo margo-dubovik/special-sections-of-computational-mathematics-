@@ -22,7 +22,7 @@ lb.remove_start_zeros(B)
 
 def is_even(N):
     l = len(N)
-    if N[l - 1] % 2 == 0:   # last number is a multiple of 2 --> number is even
+    if N[l - 1] % 2 == 0:  # last number is a multiple of 2 --> number is even
         return 1
     else:
         return 0  # else: odd
@@ -119,7 +119,7 @@ def gcd(X1, Y1):  # Greatest Common Divisor. input&output are binary
     X = X1[:]
     Y = Y1[:]
     while (is_even(X) & is_even(Y)) == 1:  # while X&Y are even
-        del X[-1]  # remove last item which is zero = X/2
+        del X[-1]  # remove last item which is нщгтпуые = X/2
         del Y[-1]  # Y/2
         d.append(0)  # d*2 = add zero to the end
     while is_even(X) == 1:  # while X is even
@@ -145,6 +145,7 @@ def lcm(X1, Y1):  # Least Common Multiplier. input&output binary
     l = division_bin(l_1, d)[0]
     return l
 
+
 A_conv = lb.convert_to_bin(A)
 B_conv = lb.convert_to_bin(B)
 
@@ -160,30 +161,32 @@ end = time.time()
 print("LCM time (sec):", end - start)
 print("lcm:", lb.conv_to_hex(lb.convert_from_bin(LCM)))
 
-def conv_from_int(n, b):
+
+def conv_from_int(n, b):  # decimal number to 2^w number
     number = arr.array('I', [])
     while n > 0:
         number.insert(0, n % b)  # take remainder of division and add it leftmost of the array
         n = n // b
     return number
 
-def miu(N): #miu = (b**2k)%N
+
+def miu(N):  # miu = (b**2k)%N
     lb.remove_start_zeros(N)
     k = len(N)
     b_arr = arr.array('I', [1, 0])
-    k_1 = conv_from_int(2*k, b)
-    b_1 = lb.degree_of_long(b_arr, k_1)   #b**(2*k)
+    k_1 = conv_from_int(2 * k, b)
+    b_1 = lb.degree_of_long(b_arr, k_1)  # b**(2*k)
     lb.remove_start_zeros(b_1)
     return lb.convert_from_bin(lb.division(b_1, N)[0])
 
 
-def remove_last_digits(X, l):
+def remove_last_digits(X, l):  #remove last l digits from X
     k = len(X)
     X1 = X[:(k - l)]
     return X1
 
 
-def barrett_reduction(X, N):  # r = XmodN, M=miu(N)
+def barrett_reduction(X, N):  # r = X mod N, M=miu(N)
     lb.remove_start_zeros(N)
     M = miu(N)
     lb.remove_start_zeros(X)
@@ -208,7 +211,6 @@ def barrett_reduction(X, N):  # r = XmodN, M=miu(N)
     return R
 
 
-
 def addition_modular(X1, Y1, N):
     X = barrett_reduction(X1, N)
     Y = barrett_reduction(Y1, N)
@@ -218,8 +220,8 @@ def addition_modular(X1, Y1, N):
 
 
 def substraction_modular(X1, Y1, N):
-  #  X = barrett_reduction(X1, N)
-  #  Y = barrett_reduction(Y1, N)
+    #  X = barrett_reduction(X1, N)
+    #  Y = barrett_reduction(Y1, N)
     Z1 = abs_substraction(X1, Y1, b)
     Z = barrett_reduction(Z1, N)
     return Z
@@ -253,13 +255,13 @@ def degree_of_long_modular(X1, Y1, N):
         X = barrett_reduction(lb.mul(X, X), N)
     return Z
 
+
 print("insert module for modular operations:")
 inp_module = input()
 N = lb.conv_from_hex(inp_module, b)
-#N = '2AB3786D3A85E62EC763A05A73A7F08D21EEE3CBCAE207E4085'
-#A = '5FEEAB2C8CB334B1A20D5136C4EFF158B8598294979F8CF285D'
-#B = '14545FB14964C0C62E5D79272FD2FC69FF0FAA54B8CED63FC9C'
-
+# N = '2AB3786D3A85E62EC763A05A73A7F08D21EEE3CBCAE207E4085'
+# A = '3A7EF2554E8940FA9B93B2A5E822CC7BB262F4A14159E4318CA'
+# B = 'D4D2110984907B5625309D956521BAB4157B8B1ECE04043249A'
 
 lb.remove_start_zeros(A)
 lb.remove_start_zeros(B)
@@ -273,7 +275,7 @@ print("Addition time (sec):", end - start)
 start = time.time()
 Sub_mod = substraction_modular(A, B, N)
 end = time.time()
-print("Substraction time (sec):", end - start)
+print("Subtraction time (sec):", end - start)
 
 start = time.time()
 Mul_mod = mul_modular(A, B, N)
@@ -285,8 +287,8 @@ Square_mod = square_modular(A, N)
 end = time.time()
 print("Square time (sec):", end - start)
 
-#start = time.time()
-#Deg_mod = degree_of_long_modular(A, B, N)
+# start = time.time()
+# Deg_mod = degree_of_long_modular(A, B, N)
 # end = time.time()
 # print("Deg time (sec):", end - start)
 
@@ -294,7 +296,7 @@ lb.remove_start_zeros(Addition_mod)
 lb.remove_start_zeros(Sub_mod)
 lb.remove_start_zeros(Mul_mod)
 lb.remove_start_zeros(Square_mod)
-#lb.remove_start_zeros(Deg_mod)
+# lb.remove_start_zeros(Deg_mod)
 
 
 print("A mod B =", lb.conv_to_hex(barrett_reduction(A, B)))
@@ -302,20 +304,25 @@ print("(A+B)mod N =", lb.conv_to_hex(Addition_mod))
 print("(A-B)mod N =", lb.conv_to_hex(Sub_mod))
 print("(A*B)mod N =", lb.conv_to_hex(Mul_mod))
 print("(A^2)mod N =", lb.conv_to_hex(Square_mod))
-#print("(A^B)mod N =", lb.conv_to_hex(Deg_mod))
+
+
+# print("(A^B)mod N =", lb.conv_to_hex(Deg_mod))
 
 def test_func():
     a_n = A_n_times(A, 110)
     test1 = lb.comparison(mul_modular(A, T, N), barrett_reduction(a_n, N))
     print("(A*T)mod N =?= (A+..+A T times)mod N: ", test1)
-    test2 = lb.comparison(mul_modular(C, Addition_mod, N), addition_modular(mul_modular(A, C, N), mul_modular(B, C, N), N))
+    test2 = lb.comparison(mul_modular(C, Addition_mod, N),
+                          addition_modular(mul_modular(A, C, N), mul_modular(B, C, N), N))
     print("(A+B)*C=?=A*C+B*C:", test2)
+
 
 def A_n_times(A, n):
     F = A[:]
-    for i in range(n-1):
+    for i in range(n - 1):
         F = lb.addition(F, A)
     return F
+
 
 ini_stringT = '6E'
 T = lb.conv_from_hex(ini_stringT, b)
