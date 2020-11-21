@@ -95,6 +95,15 @@ def division_bin_pol(A1, B1):  # division of binary input
         Q = addition_pol(Q, d)
     return Q, R
 
+def mod_f(x):
+    z = division_bin_pol(x, f)[1]
+    if len(z) > 251 and z[0] == 0:
+        z = z[1:]
+    if len(z) <251:
+        while len(z) != 251:
+            z.insert(0, 0)
+    return z
+
 def addition_pol(x, y):
     if len(x) != len(y):
         lb.equalize(x, y)
@@ -123,12 +132,14 @@ def mul_pol(x, y):
             t = t - 1
         c = addition_pol(c, temp)
         j = j + 1
-    z = division_bin_pol(c, f)[1]  #(x * y)mod f
-    if len(z) > m and z[0] == 0:
-        z = z[1:]
-    if len(z) < m:
-        while len(z) != m:
-            z.insert(0, 0)
+    z = mod_f(c)
+    return z
+
+def square_pol(x):
+    y = x[:]
+    for i in range(0, 2 * len(y) - 2, 2):
+        y.insert(i+1, 0)
+    z = mod_f(y)
     return z
 
 f_degs = arr.array('I', [251, 14, 4, 1, 0])
@@ -145,14 +156,18 @@ print("polynomial-generator:", f_as_str)
 
 addition = addition_pol(a, b)
 multiplication = mul_pol(a,b)
+square = square_pol(a)
 
 addition_str = ''.join(map(str, addition))
 multiplication_str = ''.join(map(str, multiplication))
+square_str = ''.join(map(str, square))
 
 
 if sys == '1':
     print("A+B=", addition_str)
     print("A*B=", multiplication_str)
+    print("A^2=", square_str)
 else:
     print("A+B hex=", arr_to_hex_str(addition_str))
     print("A*B hex =", arr_to_hex_str(multiplication_str))
+    print("A^2 hex=", arr_to_hex_str(square_str))
