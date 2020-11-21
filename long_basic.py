@@ -1,8 +1,9 @@
 import array as arr
 
-print("insert power of 2 for system base:")  # Initialising system base
-w = int(input())
-b = 2 ** w
+# print("insert power of 2 for system base:")  # Initialising system base
+# w = int(input())
+# b = 2 ** w
+
 # print("b=", b)
 #
 # print("insert hex string 1:") # Initialising hex strings

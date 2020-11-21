@@ -2,23 +2,23 @@ import array as arr
 import long_basic as lb
 import time
 
-print("insert power of 2 for system base:")  # Initialising system base
-w = int(input())
-b = 2 ** w
-print("b=", b)
-
-print("insert hex string 1:")  # Initialising hex string
-ini_string1 = input()
-
-print("insert hex string 2:")
-ini_string2 = input()
-
-A = lb.conv_from_hex(ini_string1, b)
-B = lb.conv_from_hex(ini_string2, b)
-
-lb.remove_start_zeros(A)
-lb.remove_start_zeros(B)
-
+# print("insert power of 2 for system base:")  # Initialising system base
+# w = int(input())
+# b = 2 ** w
+# print("b=", b)
+#
+# print("insert hex string 1:")  # Initialising hex string
+# ini_string1 = input()
+#
+# print("insert hex string 2:")
+# ini_string2 = input()
+#
+# A = lb.conv_from_hex(ini_string1, b)
+# B = lb.conv_from_hex(ini_string2, b)
+#
+# lb.remove_start_zeros(A)
+# lb.remove_start_zeros(B)
+#
 
 def is_even(N):
     l = len(N)
@@ -79,7 +79,6 @@ def addition_bin(A, B):
         carry = temp >> 1
     if carry != 0:
         C.insert(0, carry)  # if the result is bigger than the incomes
-
     return C
 
 
@@ -89,7 +88,7 @@ def mulOneDigit_bin(A, d):
     carry = 0
     for i in reversed(range(n)):
         temp = A[i] * d + carry
-        C.insert(0, temp & (1))
+        C.insert(0, temp & 1)
         carry = temp >> 1
     C.insert(0, carry)
     return C
@@ -145,21 +144,21 @@ def lcm(X1, Y1):  # Least Common Multiplier. input&output binary
     l = division_bin(l_1, d)[0]
     return l
 
-
-A_conv = lb.convert_to_bin(A)
-B_conv = lb.convert_to_bin(B)
-
-start = time.time()
-GCD = gcd(A_conv, B_conv)
-end = time.time()
-print("GCD time (sec):", end - start)
-print("gcd:", lb.conv_to_hex(lb.convert_from_bin(GCD)))
-
-start = time.time()
-LCM = lcm(A_conv, B_conv)
-end = time.time()
-print("LCM time (sec):", end - start)
-print("lcm:", lb.conv_to_hex(lb.convert_from_bin(LCM)))
+#
+# A_conv = lb.convert_to_bin(A)
+# B_conv = lb.convert_to_bin(B)
+#
+# start = time.time()
+# GCD = gcd(A_conv, B_conv)
+# end = time.time()
+# print("GCD time (sec):", end - start)
+# print("gcd:", lb.conv_to_hex(lb.convert_from_bin(GCD)))
+#
+# start = time.time()
+# LCM = lcm(A_conv, B_conv)
+# end = time.time()
+# print("LCM time (sec):", end - start)
+# print("lcm:", lb.conv_to_hex(lb.convert_from_bin(LCM)))
 
 
 def conv_from_int(n, b):  # decimal number to 2^w number
@@ -255,58 +254,58 @@ def degree_of_long_modular(X1, Y1, N):
         X = barrett_reduction(lb.mul(X, X), N)
     return Z
 
-
-print("insert module for modular operations:")
-inp_module = input()
-N = lb.conv_from_hex(inp_module, b)
-# N = '2AB3786D3A85E62EC763A05A73A7F08D21EEE3CBCAE207E4085'
-# A = '3A7EF2554E8940FA9B93B2A5E822CC7BB262F4A14159E4318CA'
-# B = 'D4D2110984907B5625309D956521BAB4157B8B1ECE04043249A'
-
-lb.remove_start_zeros(A)
-lb.remove_start_zeros(B)
-lb.remove_start_zeros(N)
-
-start = time.time()
-Addition_mod = addition_modular(A, B, N)
-end = time.time()
-print("Addition time (sec):", end - start)
-
-start = time.time()
-Sub_mod = substraction_modular(A, B, N)
-end = time.time()
-print("Subtraction time (sec):", end - start)
-
-start = time.time()
-Mul_mod = mul_modular(A, B, N)
-end = time.time()
-print("Multiplication time (sec):", end - start)
-
-start = time.time()
-Square_mod = square_modular(A, N)
-end = time.time()
-print("Square time (sec):", end - start)
-
+#
+# print("insert module for modular operations:")
+# inp_module = input()
+# N = lb.conv_from_hex(inp_module, b)
+# # N = '2AB3786D3A85E62EC763A05A73A7F08D21EEE3CBCAE207E4085'
+# # A = '3A7EF2554E8940FA9B93B2A5E822CC7BB262F4A14159E4318CA'
+# # B = 'D4D2110984907B5625309D956521BAB4157B8B1ECE04043249A'
+#
+# lb.remove_start_zeros(A)
+# lb.remove_start_zeros(B)
+# lb.remove_start_zeros(N)
+#
 # start = time.time()
-# Deg_mod = degree_of_long_modular(A, B, N)
+# Addition_mod = addition_modular(A, B, N)
 # end = time.time()
-# print("Deg time (sec):", end - start)
-
-lb.remove_start_zeros(Addition_mod)
-lb.remove_start_zeros(Sub_mod)
-lb.remove_start_zeros(Mul_mod)
-lb.remove_start_zeros(Square_mod)
-# lb.remove_start_zeros(Deg_mod)
-
-
-print("A mod B =", lb.conv_to_hex(barrett_reduction(A, B)))
-print("(A+B)mod N =", lb.conv_to_hex(Addition_mod))
-print("(A-B)mod N =", lb.conv_to_hex(Sub_mod))
-print("(A*B)mod N =", lb.conv_to_hex(Mul_mod))
-print("(A^2)mod N =", lb.conv_to_hex(Square_mod))
-
-
-# print("(A^B)mod N =", lb.conv_to_hex(Deg_mod))
+# print("Addition time (sec):", end - start)
+#
+# start = time.time()
+# Sub_mod = substraction_modular(A, B, N)
+# end = time.time()
+# print("Subtraction time (sec):", end - start)
+#
+# start = time.time()
+# Mul_mod = mul_modular(A, B, N)
+# end = time.time()
+# print("Multiplication time (sec):", end - start)
+#
+# start = time.time()
+# Square_mod = square_modular(A, N)
+# end = time.time()
+# print("Square time (sec):", end - start)
+#
+# # start = time.time()
+# # Deg_mod = degree_of_long_modular(A, B, N)
+# # end = time.time()
+# # print("Deg time (sec):", end - start)
+#
+# lb.remove_start_zeros(Addition_mod)
+# lb.remove_start_zeros(Sub_mod)
+# lb.remove_start_zeros(Mul_mod)
+# lb.remove_start_zeros(Square_mod)
+# # lb.remove_start_zeros(Deg_mod)
+#
+#
+# print("A mod B =", lb.conv_to_hex(barrett_reduction(A, B)))
+# print("(A+B)mod N =", lb.conv_to_hex(Addition_mod))
+# print("(A-B)mod N =", lb.conv_to_hex(Sub_mod))
+# print("(A*B)mod N =", lb.conv_to_hex(Mul_mod))
+# print("(A^2)mod N =", lb.conv_to_hex(Square_mod))
+#
+#
+# # print("(A^B)mod N =", lb.conv_to_hex(Deg_mod))
 
 def test_func():
     a_n = A_n_times(A, 110)
@@ -324,11 +323,11 @@ def A_n_times(A, n):
     return F
 
 
-ini_stringT = '6E'
-T = lb.conv_from_hex(ini_stringT, b)
-
-print("insert hex string C for tests:")
-ini_stringC = input()
-C = lb.conv_from_hex(ini_stringC, b)
-
-test_func()
+# ini_stringT = '6E'
+# T = lb.conv_from_hex(ini_stringT, b)
+#
+# print("insert hex string C for tests:")
+# ini_stringC = input()
+# C = lb.conv_from_hex(ini_stringC, b)
+#
+# test_func()
