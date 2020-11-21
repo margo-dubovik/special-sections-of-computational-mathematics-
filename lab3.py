@@ -142,6 +142,17 @@ def square_pol(x):
     z = mod_f(y)
     return z
 
+def trace_pol(x):
+    tr = x[:]
+    c = x[:]
+    for i in range(m-1):
+        c = square_pol(c)
+        tr = addition_pol(tr, c)
+    tr = mod_f(tr)
+    lb.remove_start_zeros(tr)
+    return tr
+
+
 f_degs = arr.array('I', [251, 14, 4, 1, 0])
 f = generate_by_degs(f_degs) #polynomial-generator in polynomial basis
 #print(f)
@@ -157,17 +168,21 @@ print("polynomial-generator:", f_as_str)
 addition = addition_pol(a, b)
 multiplication = mul_pol(a,b)
 square = square_pol(a)
+trace = trace_pol(a)
 
 addition_str = ''.join(map(str, addition))
 multiplication_str = ''.join(map(str, multiplication))
 square_str = ''.join(map(str, square))
+trace_str = ''.join(map(str, trace))
 
 
 if sys == '1':
     print("A+B=", addition_str)
     print("A*B=", multiplication_str)
     print("A^2=", square_str)
+    print("Tr(A)=", trace_str)
 else:
     print("A+B hex=", arr_to_hex_str(addition_str))
     print("A*B hex =", arr_to_hex_str(multiplication_str))
-    print("A^2 hex=", arr_to_hex_str(square_str))
+    print("Tr(A)=", trace_str)
+
