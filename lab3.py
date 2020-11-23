@@ -152,6 +152,16 @@ def trace_pol(x):
     lb.remove_start_zeros(tr)
     return tr
 
+def inv_by_mul(x):
+    z = x[:]
+    y = x[:]
+    for i in range(1, m-1):
+        y = square_pol(y)
+        z = mul_pol(z, y)
+    z = square_pol(z)
+    z = mod_f(z)
+    return z
+
 
 f_degs = arr.array('I', [251, 14, 4, 1, 0])
 f = generate_by_degs(f_degs) #polynomial-generator in polynomial basis
@@ -169,11 +179,13 @@ addition = addition_pol(a, b)
 multiplication = mul_pol(a,b)
 square = square_pol(a)
 trace = trace_pol(a)
+inv = inv_by_mul(a)
 
 addition_str = ''.join(map(str, addition))
 multiplication_str = ''.join(map(str, multiplication))
 square_str = ''.join(map(str, square))
 trace_str = ''.join(map(str, trace))
+inv_str = ''.join(map(str, inv))
 
 
 if sys == '1':
@@ -181,8 +193,12 @@ if sys == '1':
     print("A*B=", multiplication_str)
     print("A^2=", square_str)
     print("Tr(A)=", trace_str)
+    print("A^-1=", inv_str)
 else:
     print("A+B hex=", arr_to_hex_str(addition_str))
-    print("A*B hex =", arr_to_hex_str(multiplication_str))
+    print("A*B hex=", arr_to_hex_str(multiplication_str))
+    print("A^2=", arr_to_hex_str(square_str))
     print("Tr(A)=", trace_str)
+    print("A^-1=", arr_to_hex_str(inv_str))
+
 
