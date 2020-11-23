@@ -63,15 +63,19 @@ def insert_numbers():
         x = bin_str_to_arr(input())
         print("Insert bin B:")
         y = bin_str_to_arr(input())
+        print("Insert bin N:")
+        z = bin_str_to_arr(input())
     elif sys == '2':
         print("Insert hex A:")
         x = hex_str_to_arr(input())
         print("Insert hex B:")
         y = hex_str_to_arr(input())
+        print("Insert hex N:")
+        z = hex_str_to_arr(input())
     else:
         print("WRONG INPUT. TRY AGAIN")
         insert_numbers()
-    return x, y, sys
+    return x, y, sys, z
 
 
 
@@ -162,6 +166,18 @@ def inv_by_mul(x):
     z = mod_f(z)
     return z
 
+def degree_of_long_pol(x, n):
+    lb.remove_start_zeros(x)
+    lb.remove_start_zeros(n)
+    l = len(n)
+    z = arr.array('I', [1])
+    for i in reversed(range(l)):
+        if n[i] == 1:
+            z = mul_pol(z, x)
+        x = square_pol(x)
+    return z
+
+
 
 f_degs = arr.array('I', [251, 14, 4, 1, 0])
 f = generate_by_degs(f_degs) #polynomial-generator in polynomial basis
@@ -171,6 +187,7 @@ inserted_values = insert_numbers()
 a = inserted_values[0]
 b = inserted_values[1]
 sys = inserted_values[2]
+n = inserted_values[3]
 
 f_as_str = print_as_polynomial(f_degs)
 print("polynomial-generator:", f_as_str)
@@ -180,12 +197,14 @@ multiplication = mul_pol(a,b)
 square = square_pol(a)
 trace = trace_pol(a)
 inv = inv_by_mul(a)
+degr = degree_of_long_pol(a, n)
 
 addition_str = ''.join(map(str, addition))
 multiplication_str = ''.join(map(str, multiplication))
 square_str = ''.join(map(str, square))
 trace_str = ''.join(map(str, trace))
 inv_str = ''.join(map(str, inv))
+degr_str = ''.join(map(str, degr))
 
 
 if sys == '1':
@@ -194,11 +213,13 @@ if sys == '1':
     print("A^2=", square_str)
     print("Tr(A)=", trace_str)
     print("A^-1=", inv_str)
+    print("A^N=", degr_str)
 else:
     print("A+B hex=", arr_to_hex_str(addition_str))
     print("A*B hex=", arr_to_hex_str(multiplication_str))
     print("A^2=", arr_to_hex_str(square_str))
     print("Tr(A)=", trace_str)
     print("A^-1=", arr_to_hex_str(inv_str))
+    print("A^N=", arr_to_hex_str(degr_str))
 
 
