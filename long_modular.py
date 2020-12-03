@@ -2,6 +2,7 @@ import array as arr
 import long_basic as lb
 import time
 
+
 # print("insert power of 2 for system base:")  # Initialising system base
 # w = int(input())
 # b = 2 ** w
@@ -144,6 +145,7 @@ def lcm(X1, Y1):  # Least Common Multiplier. input&output binary
     l = division_bin(l_1, d)[0]
     return l
 
+
 #
 # A_conv = lb.convert_to_bin(A)
 # B_conv = lb.convert_to_bin(B)
@@ -179,7 +181,7 @@ def miu(N):  # miu = (b**2k)%N
     return lb.convert_from_bin(lb.division(b_1, N)[0])
 
 
-def remove_last_digits(X, l):  #remove last l digits from X
+def remove_last_digits(X, l):  # remove last l digits from X
     k = len(X)
     X1 = X[:(k - l)]
     return X1
@@ -254,6 +256,7 @@ def degree_of_long_modular(X1, Y1, N):
         X = barrett_reduction(lb.mul(X, X), N)
     return Z
 
+
 #
 # print("insert module for modular operations:")
 # inp_module = input()
@@ -321,7 +324,6 @@ def A_n_times(A, n):
     for i in range(n - 1):
         F = lb.addition(F, A)
     return F
-
 
 # ini_stringT = '6E'
 # T = lb.conv_from_hex(ini_stringT, b)

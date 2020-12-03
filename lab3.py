@@ -4,15 +4,16 @@
 import array as arr
 import long_modular as lm
 import long_basic as lb
-
+import time
 
 m = 251
+
 
 def generate_by_degs(deg_vec):
     pol = arr.array('I', [])
     s = set(deg_vec)
     n = deg_vec[0]
-    for i in range (n+1):
+    for i in range(n + 1):
         if i in s:
             pol.insert(0, 1)
         else:
@@ -24,7 +25,7 @@ def print_as_polynomial(deg_vec):
     str_pol = ""
     s = set(deg_vec)
     n = deg_vec[0]
-    for i in reversed(range (n+1)):
+    for i in reversed(range(n + 1)):
         if i in s:
             str_pol = str_pol + f" x^{i} +"
     str_pol = str_pol[:-1]
@@ -74,9 +75,8 @@ def insert_numbers():
         z = hex_str_to_arr(input())
     else:
         print("WRONG INPUT. TRY AGAIN")
-        insert_numbers()
+        return insert_numbers()
     return x, y, sys, z
-
 
 
 def division_bin_pol(A1, B1):  # division of binary input
@@ -92,21 +92,25 @@ def division_bin_pol(A1, B1):  # division of binary input
         C1 = lb.ext(B1, t - k)  # shifting
         if lb.comparison(R, C1) == -1:  # R<C
             t = t - 1  # return on 1 bit back
-            C1 = lb.ext(B1, t - k)  # shifting
+        # C1 = lb.ext(B1, t - k)  # shifting
         R = addition_pol(R, C1)
         lb.remove_start_zeros(R)
         d = lb.degree_of_two_bin_array(t - k)  # d = 2^(t-k) in binary
         Q = addition_pol(Q, d)
     return Q, R
 
+
 def mod_f(x):
     z = division_bin_pol(x, f)[1]
-    if len(z) > 251 and z[0] == 0:
+    if len(z) == len(f) and z[0] == 1:
+        z = addition_pol(z, f)
+    elif len(z) > 251 and z[0] == 0:
         z = z[1:]
-    if len(z) <251:
+    elif len(z) < 251:
         while len(z) != 251:
             z.insert(0, 0)
     return z
+
 
 def addition_pol(x, y):
     if len(x) != len(y):
@@ -139,32 +143,36 @@ def mul_pol(x, y):
     z = mod_f(c)
     return z
 
+
 def square_pol(x):
     y = x[:]
     for i in range(0, 2 * len(y) - 2, 2):
-        y.insert(i+1, 0)
+        y.insert(i + 1, 0)
     z = mod_f(y)
     return z
+
 
 def trace_pol(x):
     tr = x[:]
     c = x[:]
-    for i in range(m-1):
+    for i in range(m - 1):
         c = square_pol(c)
         tr = addition_pol(tr, c)
     tr = mod_f(tr)
     lb.remove_start_zeros(tr)
     return tr
 
+
 def inv_by_mul(x):
     z = x[:]
     y = x[:]
-    for i in range(1, m-1):
+    for i in range(1, m - 1):
         y = square_pol(y)
         z = mul_pol(z, y)
     z = square_pol(z)
     z = mod_f(z)
     return z
+
 
 def degree_of_long_pol(x, n):
     lb.remove_start_zeros(x)
@@ -175,13 +183,13 @@ def degree_of_long_pol(x, n):
         if n[i] == 1:
             z = mul_pol(z, x)
         x = square_pol(x)
+    z = mod_f(z)
     return z
 
 
-
 f_degs = arr.array('I', [251, 14, 4, 1, 0])
-f = generate_by_degs(f_degs) #polynomial-generator in polynomial basis
-#print(f)
+f = generate_by_degs(f_degs)  # polynomial-generator in polynomial basis
+# print(f)
 
 inserted_values = insert_numbers()
 a = inserted_values[0]
@@ -192,12 +200,36 @@ n = inserted_values[3]
 f_as_str = print_as_polynomial(f_degs)
 print("polynomial-generator:", f_as_str)
 
+##################################################################################
+start = time.time()
 addition = addition_pol(a, b)
-multiplication = mul_pol(a,b)
+end = time.time()
+print("Addition time (sec):", end - start)
+
+start = time.time()
+multiplication = mul_pol(a, b)
+end = time.time()
+print("Multiplication time (sec):", end - start)
+
+start = time.time()
 square = square_pol(a)
+end = time.time()
+print("Squaring time (sec):", end - start)
+
+start = time.time()
 trace = trace_pol(a)
+end = time.time()
+print("Trace time (sec):", end - start)
+
+start = time.time()
 inv = inv_by_mul(a)
+end = time.time()
+print("A^(-1) time (sec):", end - start)
+
+start = time.time()
 degr = degree_of_long_pol(a, n)
+end = time.time()
+print("A^N time (sec):", end - start)
 
 addition_str = ''.join(map(str, addition))
 multiplication_str = ''.join(map(str, multiplication))
@@ -205,7 +237,6 @@ square_str = ''.join(map(str, square))
 trace_str = ''.join(map(str, trace))
 inv_str = ''.join(map(str, inv))
 degr_str = ''.join(map(str, degr))
-
 
 if sys == '1':
     print("A+B=", addition_str)
@@ -223,3 +254,19 @@ else:
     print("A^N=", arr_to_hex_str(degr_str))
 
 
+def test_func():
+    # if sys == '1':
+    #     print("Insert bin C for tests:")
+    #     c = bin_str_to_arr(input())
+    # else:
+    #     print("Insert hex C for tests:")
+    #     c = hex_str_to_arr(input())
+    test1 = lb.comparison(mul_pol(addition, n), addition_pol(mul_pol(a, n), mul_pol(b, n)))
+    print("(A+B)*N=?=A*N+B*N:", test1)
+    n_m = arr.array('I', [1 for i in range(m)])  # n_m = 2^m - 1
+    test2 = degree_of_long_pol(n, n_m)
+    lb.remove_start_zeros(test2)
+    print("c^(2^m - 1) =?= 1 :", test2)
+
+
+test_func()
