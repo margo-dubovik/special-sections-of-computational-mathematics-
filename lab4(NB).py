@@ -106,24 +106,60 @@ def trace_nb(x):
         tr = (tr + x[i]) % 2
     return tr
 
+
 def mult_matrix(m):
-    p = 2*m + 1
+    p = 2 * m + 1
     matr = [[0] * m for i in range(m)]
     for i in range(m):
         for j in range(m):
-            k = 2**i
-            t = 2**j
+            k = 2 ** i
+            t = 2 ** j
             q1 = k + t
             q2 = k - t
-            if q1 > 0 and (q1 % p == 1 or p - q1%p == 1):
+            if q1 > 0 and (q1 % p == 1 or p - q1 % p == 1):
                 matr[i][j] = 1
-            elif q2 > 0 and (q2%p == 1 or p - q2%p == 1):
+            elif q2 > 0 and (q2 % p == 1 or p - q2 % p == 1):
                 matr[i][j] = 1
             elif q2 < 0 and (p + q2 == 1 or p + q2 == -1 or q2 == -1):
                 matr[i][j] = 1
             else:
                 matr[i][j] = 0
     return matr
+
+
+def mul_matrices(p, q):
+    data_p = np.asarray(p)
+    if len(data_p.shape) == 1:
+        p = [[i for i in p]]
+    data_q = np.asarray(q)
+    if len(data_q.shape) == 1:
+        q = [[i for i in q]]
+        q = np.transpose(q)
+    #     print("p=", p)
+    #     print("q=", q)
+    res = arr.array('I', [])
+    t = 0
+    for i in range(len(p)):
+        for j in range(len(q[0])):
+            for k in range(len(q)):
+                h1 = p[i][k]
+                h2 = q[k][j]
+                t = (t + h1 * h2) % 2
+            res.append(t)
+            t = 0
+    return res
+
+
+def shift_r(x, n):
+    y = x[:]
+    z = y[-n:len(y):] + y[0:-n:]
+    return z
+
+
+def shift_l(x, n):
+    y = x[:]
+    z = y[n:len(y):] + y[0:n:]
+    return z
 
 
 check_existance(m)
