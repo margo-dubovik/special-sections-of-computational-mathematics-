@@ -106,10 +106,34 @@ def trace_nb(x):
         tr = (tr + x[i]) % 2
     return tr
 
+def mult_matrix(m):
+    p = 2*m + 1
+    matr = [[0] * m for i in range(m)]
+    for i in range(m):
+        for j in range(m):
+            k = 2**i
+            t = 2**j
+            q1 = k + t
+            q2 = k - t
+            if q1 > 0 and (q1 % p == 1 or p - q1%p == 1):
+                matr[i][j] = 1
+            elif q2 > 0 and (q2%p == 1 or p - q2%p == 1):
+                matr[i][j] = 1
+            elif q2 < 0 and (p + q2 == 1 or p + q2 == -1 or q2 == -1):
+                matr[i][j] = 1
+            else:
+                matr[i][j] = 0
+    return matr
+
 
 check_existance(m)
 zero = generate_constant_0_1(0)
 one = generate_constant_0_1(1)
+
+lambda_matr = mult_matrix(m)
+# for row in lambda_matr:
+#     print(row)
+
 
 inserted_values = insert_numbers()
 a = inserted_values[0]
