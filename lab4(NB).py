@@ -33,9 +33,10 @@ def generate_constant_0_1(c):
 
 def bin_str_to_arr(num):
     number = arr.array('I', [])
-    for i in range (len(num)):
-        number.append(int(num[i],2))
+    for i in range(len(num)):
+        number.append(int(num[i], 2))
     return number
+
 
 def hex_str_to_arr(num):
     n = int(num, 16)
@@ -44,6 +45,7 @@ def hex_str_to_arr(num):
         number.insert(0, n % 2)  # take remainder of division and add it leftmost of the array
         n = n // 2
     return number
+
 
 def bin_str_to_hex_str(num):
     number = hex(int(num, 2))[2:]
@@ -75,7 +77,8 @@ def insert_numbers():
     else:
         print("WRONG INPUT. TRY AGAIN")
         insert_numbers()
-    return A, B, N
+    return A, B, N, ans
+
 
 def addition_nb(x, y):
     if len(x) != len(y):
@@ -85,15 +88,24 @@ def addition_nb(x, y):
     for i in reversed(range(n)):
         temp = x[i] + y[i]
         z.insert(0, temp & 1)
-    if len(z) <251:
+    if len(z) < 251:
         while len(z) != 251:
             z.insert(0, 0)
     return z
+
 
 def square_nb(x):
     y = x[:]
     z = y[-1:len(y):] + y[0:-1:]
     return z
+
+
+def trace_nb(x):
+    tr = 0
+    for i in range(len(x)):
+        tr = (tr + x[i]) % 2
+    return tr
+
 
 check_existance(m)
 zero = generate_constant_0_1(0)
@@ -103,15 +115,20 @@ inserted_values = insert_numbers()
 a = inserted_values[0]
 b = inserted_values[1]
 n = inserted_values[2]
+sys = inserted_values[3]
 
 addition = addition_nb(a, b)
 square = square_nb(a)
+trace = trace_nb(a)
 
 addition_str = ''.join(map(str, addition))
 square_str = ''.join(map(str, square))
 
-# print("A+B=", addition_str)
-# print("A^2=", square_str)
-
-print("A+B hex=", bin_str_to_hex_str(addition_str))
-print("A^2 hex=", bin_str_to_hex_str(square_str))
+if sys == '1':
+    print("A+B=", addition_str)
+    print("A^2=", square_str)
+    print("Tr(A)=", trace)
+else:
+    print("A+B hex=", bin_str_to_hex_str(addition_str))
+    print("A^2 hex=", bin_str_to_hex_str(square_str))
+    print("Tr(A)=", trace)
