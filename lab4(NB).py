@@ -161,6 +161,13 @@ def shift_l(x, n):
     z = y[n:len(y):] + y[0:n:]
     return z
 
+def mul_nb(x, y):
+    res = arr.array('I', [])
+    for i in range(len(x)):
+            mult_1 = (mul_matrices(shift_l(x, i), lambda_matr))
+            mult_2 = (mul_matrices(mult_1, shift_l(y, i)))
+            res.append(mult_2[0])
+    return res
 
 check_existance(m)
 zero = generate_constant_0_1(0)
@@ -180,15 +187,21 @@ sys = inserted_values[3]
 addition = addition_nb(a, b)
 square = square_nb(a)
 trace = trace_nb(a)
+multiplication = mul_nb(a, b)
+
 
 addition_str = ''.join(map(str, addition))
 square_str = ''.join(map(str, square))
+multiplication_str = ''.join(map(str, multiplication))
+
 
 if sys == '1':
     print("A+B=", addition_str)
     print("A^2=", square_str)
     print("Tr(A)=", trace)
+    print("A*B hex =", arr_to_hex_str(multiplication_str))
 else:
     print("A+B hex=", bin_str_to_hex_str(addition_str))
     print("A^2 hex=", bin_str_to_hex_str(square_str))
     print("Tr(A)=", trace)
+    print("A*B=", multiplication_str)
