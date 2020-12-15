@@ -199,9 +199,11 @@ if sys == '1':
     print("A+B=", addition_str)
     print("A^2=", square_str)
     print("Tr(A)=", trace)
-    print("A*B hex =", arr_to_hex_str(multiplication_str))
+    print("A*B=", multiplication_str)
+
 else:
     print("A+B hex=", bin_str_to_hex_str(addition_str))
     print("A^2 hex=", bin_str_to_hex_str(square_str))
     print("Tr(A)=", trace)
-    print("A*B=", multiplication_str)
+    print("A*B hex =", bin_str_to_hex_str(multiplication_str))
+
