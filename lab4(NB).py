@@ -36,6 +36,8 @@ def bin_str_to_arr(num):
     number = arr.array('I', [])
     for i in range(len(num)):
         number.append(int(num[i], 2))
+    if len(number) < 251:
+        number.insert(0, 0)
     return number
 
 
@@ -45,6 +47,8 @@ def hex_str_to_arr(num):
     while n > 0:
         number.insert(0, n % 2)  # take remainder of division and add it leftmost of the array
         n = n // 2
+    if len(number) < 251:
+        number.insert(0, 0)
     return number
 
 
@@ -184,6 +188,24 @@ def degree_of_long_nb(x, n):
         x = square_nb(x)
     return z
 
+def inv_by_mul(x):
+    d = x[:]
+    k = 1
+    h = bin(m-1)[2:]
+    t = len(h)
+    for i in (range(1, t)):
+        d_k = d[:]
+        for j in range(k):
+            d_k = square_nb(d_k)
+        d = mul_nb(d_k, d)
+        k = k * 2
+        if h[i] == '1':
+            d1 = square_nb(d)
+            d = mul_nb(d1, a)
+            k = k + 1
+    res = square_nb(d)
+    return res
+
 
 check_existence(m)
 zero = generate_constant_0_1(0)
@@ -200,30 +222,69 @@ b = inserted_values[1]
 n = inserted_values[2]
 sys = inserted_values[3]
 
+start = time.time()
 addition = addition_nb(a, b)
-square = square_nb(a)
-trace = trace_nb(a)
+end = time.time()
+print("A+B time (sec):", end - start)
+
+start = time.time()
 multiplication = mul_nb(a, b)
+end = time.time()
+print("A*B time (sec):", end - start)
+
+start = time.time()
+square = square_nb(a)
+end = time.time()
+print("A^2 time (sec):", end - start)
+
+start = time.time()
+trace = trace_nb(a)
+end = time.time()
+print("Tr(A) time (sec):", end - start)
+
+start = time.time()
+inv = inv_by_mul(a)
+end = time.time()
+print("A^(-1) time (sec):", end - start)
+
+start = time.time()
 degree = degree_of_long_nb(a, n)
+end = time.time()
+print("A^N time (sec):", end - start)
+
 
 addition_str = ''.join(map(str, addition))
 square_str = ''.join(map(str, square))
 multiplication_str = ''.join(map(str, multiplication))
 degr_str = ''.join(map(str, degree))
+inv_str = ''.join(map(str, inv))
 
 if sys == '1':
     print("A+B=", addition_str)
+    print("A*B=", multiplication_str)
     print("A^2=", square_str)
     print("Tr(A)=", trace)
-    print("A*B=", multiplication_str)
+    print("A^(-1)=", inv_str)
     print("A^N=", degr_str)
 
 else:
     print("A+B hex=", bin_str_to_hex_str(addition_str))
+    print("A*B hex =", bin_str_to_hex_str(multiplication_str))
     print("A^2 hex=", bin_str_to_hex_str(square_str))
     print("Tr(A)=", trace)
-    print("A*B hex =", bin_str_to_hex_str(multiplication_str))
+    print("A^(-1) hex =", bin_str_to_hex_str(inv_str))
     print("A^N hex =", bin_str_to_hex_str(degr_str))
 
 
-#N= 32ABCD
+def test_func():
+    test1 = lb.comparison(mul_nb(addition, n), addition_nb(mul_nb(a, n), mul_nb(b, n)))
+    print("(A+B)*N=?=A*N+B*N:", test1)
+    n_m = arr.array('I', [1 for i in range(m)])  # n_m = 2^m - 1
+    test2 = degree_of_long_nb(a, n_m)
+    lb.remove_start_zeros(test2)
+    print("c^(2^m - 1) =?= 1 :", test2)
+
+
+test_func()
+
+#N= 32ABCD (len=6)
