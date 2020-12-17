@@ -8,7 +8,7 @@ import numpy as np
 m = 251
 
 
-def check_existance(num):
+def check_existence(num):
     p = 2 * num + 1
     k = num * 2
     if p > 1:
@@ -111,7 +111,6 @@ def trace_nb(x):
     return tr
 
 
-
 def mult_matrix(m):
     p = 2 * m + 1
     matr = [[0] * m for i in range(m)]
@@ -174,7 +173,19 @@ def mul_nb(x, y):
     return res
 
 
-check_existance(m)
+def degree_of_long_nb(x, n):
+    l = len(n)
+    z = one
+    for i in reversed(range(l)):
+        if n[i] == 1:
+            print("a")
+            z = mul_nb(x, z)
+            print("b")
+        x = square_nb(x)
+    return z
+
+
+check_existence(m)
 zero = generate_constant_0_1(0)
 one = generate_constant_0_1(1)
 
@@ -193,19 +204,26 @@ addition = addition_nb(a, b)
 square = square_nb(a)
 trace = trace_nb(a)
 multiplication = mul_nb(a, b)
+degree = degree_of_long_nb(a, n)
 
 addition_str = ''.join(map(str, addition))
 square_str = ''.join(map(str, square))
 multiplication_str = ''.join(map(str, multiplication))
+degr_str = ''.join(map(str, degree))
 
 if sys == '1':
     print("A+B=", addition_str)
     print("A^2=", square_str)
     print("Tr(A)=", trace)
     print("A*B=", multiplication_str)
+    print("A^N=", degr_str)
 
 else:
     print("A+B hex=", bin_str_to_hex_str(addition_str))
     print("A^2 hex=", bin_str_to_hex_str(square_str))
     print("Tr(A)=", trace)
     print("A*B hex =", bin_str_to_hex_str(multiplication_str))
+    print("A^N hex =", bin_str_to_hex_str(degr_str))
+
+
+#N= 32ABCD
