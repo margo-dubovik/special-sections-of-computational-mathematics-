@@ -191,82 +191,77 @@ f_degs = arr.array('I', [251, 14, 4, 1, 0])
 f = generate_by_degs(f_degs)  # polynomial-generator in polynomial basis
 # print(f)
 
-inserted_values = insert_numbers()
-a = inserted_values[0]
-b = inserted_values[1]
-sys = inserted_values[2]
-n = inserted_values[3]
-
-f_as_str = print_as_polynomial(f_degs)
-print("polynomial-generator:", f_as_str)
-
-##################################################################################
-start = time.time()
-addition = addition_pol(a, b)
-end = time.time()
-print("Addition time (sec):", end - start)
-
-start = time.time()
-multiplication = mul_pol(a, b)
-end = time.time()
-print("Multiplication time (sec):", end - start)
-
-start = time.time()
-square = square_pol(a)
-end = time.time()
-print("Squaring time (sec):", end - start)
-
-start = time.time()
-trace = trace_pol(a)
-end = time.time()
-print("Trace time (sec):", end - start)
-
-start = time.time()
-inv = inv_by_mul(a)
-end = time.time()
-print("A^(-1) time (sec):", end - start)
-
-start = time.time()
-degr = degree_of_long_pol(a, n)
-end = time.time()
-print("A^N time (sec):", end - start)
-
-addition_str = ''.join(map(str, addition))
-multiplication_str = ''.join(map(str, multiplication))
-square_str = ''.join(map(str, square))
-trace_str = ''.join(map(str, trace))
-inv_str = ''.join(map(str, inv))
-degr_str = ''.join(map(str, degr))
-
-if sys == '1':
-    print("A+B=", addition_str)
-    print("A*B=", multiplication_str)
-    print("A^2=", square_str)
-    print("Tr(A)=", trace_str)
-    print("A^-1=", inv_str)
-    print("A^N=", degr_str)
-else:
-    print("A+B hex=", arr_to_hex_str(addition_str))
-    print("A*B hex=", arr_to_hex_str(multiplication_str))
-    print("A^2=", arr_to_hex_str(square_str))
-    print("Tr(A)=", trace_str)
-    print("A^-1=", arr_to_hex_str(inv_str))
-    print("A^N=", arr_to_hex_str(degr_str))
-
-
-def test_func():
-    # if sys == '1':
-    #     print("Insert bin C for tests:")
-    #     c = bin_str_to_arr(input())
-    # else:
-    #     print("Insert hex C for tests:")
-    #     c = hex_str_to_arr(input())
-    test1 = lb.comparison(mul_pol(addition, n), addition_pol(mul_pol(a, n), mul_pol(b, n)))
-    print("(A+B)*N=?=A*N+B*N:", test1)
-    n_m = arr.array('I', [1 for i in range(m)])  # n_m = 2^m - 1
-    test2 = degree_of_long_pol(n, n_m)
-    lb.remove_start_zeros(test2)
-    print("c^(2^m - 1) =?= 1 :", test2)
-
-
-test_func()
+#
+# inserted_values = insert_numbers()
+# a = inserted_values[0]
+# b = inserted_values[1]
+# sys = inserted_values[2]
+# n = inserted_values[3]
+#
+# f_as_str = print_as_polynomial(f_degs)
+# print("polynomial-generator:", f_as_str)
+#
+# ##################################################################################
+# start = time.time()
+# addition = addition_pol(a, b)
+# end = time.time()
+# print("Addition time (sec):", end - start)
+#
+# start = time.time()
+# multiplication = mul_pol(a, b)
+# end = time.time()
+# print("Multiplication time (sec):", end - start)
+#
+# start = time.time()
+# square = square_pol(a)
+# end = time.time()
+# print("Squaring time (sec):", end - start)
+#
+# start = time.time()
+# trace = trace_pol(a)
+# end = time.time()
+# print("Trace time (sec):", end - start)
+#
+# start = time.time()
+# inv = inv_by_mul(a)
+# end = time.time()
+# print("A^(-1) time (sec):", end - start)
+#
+# start = time.time()
+# degr = degree_of_long_pol(a, n)
+# end = time.time()
+# print("A^N time (sec):", end - start)
+#
+# addition_str = ''.join(map(str, addition))
+# multiplication_str = ''.join(map(str, multiplication))
+# square_str = ''.join(map(str, square))
+# trace_str = ''.join(map(str, trace))
+# inv_str = ''.join(map(str, inv))
+# degr_str = ''.join(map(str, degr))
+#
+# if sys == '1':
+#     print("A+B=", addition_str)
+#     print("A*B=", multiplication_str)
+#     print("A^2=", square_str)
+#     print("Tr(A)=", trace_str)
+#     print("A^-1=", inv_str)
+#     print("A^N=", degr_str)
+# else:
+#     print("A+B hex=", arr_to_hex_str(addition_str))
+#     print("A*B hex=", arr_to_hex_str(multiplication_str))
+#     print("A^2=", arr_to_hex_str(square_str))
+#     print("Tr(A)=", trace_str)
+#     print("A^-1=", arr_to_hex_str(inv_str))
+#     print("A^N=", arr_to_hex_str(degr_str))
+#
+#
+# def test_func():
+#     test1 = lb.comparison(mul_pol(addition, n), addition_pol(mul_pol(a, n), mul_pol(b, n)))
+#     print("(A+B)*N=?=A*N+B*N:", test1)
+#     n_m = arr.array('I', [1 for i in range(m)])  # n_m = 2^m - 1
+#     test2 = degree_of_long_pol(n, n_m)
+#     lb.remove_start_zeros(test2)
+#     print("c^(2^m - 1) =?= 1 :", test2)
+#
+#
+# test_func()
