@@ -3,6 +3,7 @@ import long_modular as lm
 import long_basic as lb
 import polynomial_bas as pb
 import time
+import numpy as np
 
 m = 251
 
@@ -76,6 +77,9 @@ def insert_numbers():
         N = hex_str_to_arr(input())
     else:
         print("WRONG INPUT. TRY AGAIN")
+        A = 0
+        B = 0
+        N = 0
         insert_numbers()
     return A, B, N, ans
 
@@ -107,6 +111,7 @@ def trace_nb(x):
     return tr
 
 
+
 def mult_matrix(m):
     p = 2 * m + 1
     matr = [[0] * m for i in range(m)]
@@ -114,8 +119,8 @@ def mult_matrix(m):
         for j in range(m):
             k = 2 ** i
             t = 2 ** j
-            q1 = k + t
-            q2 = k - t
+            q1 = k % p + t % p
+            q2 = k % p - t % p
             if q1 > 0 and (q1 % p == 1 or p - q1 % p == 1):
                 matr[i][j] = 1
             elif q2 > 0 and (q2 % p == 1 or p - q2 % p == 1):
@@ -135,8 +140,6 @@ def mul_matrices(p, q):
     if len(data_q.shape) == 1:
         q = [[i for i in q]]
         q = np.transpose(q)
-    #     print("p=", p)
-    #     print("q=", q)
     res = arr.array('I', [])
     t = 0
     for i in range(len(p)):
@@ -161,13 +164,15 @@ def shift_l(x, n):
     z = y[n:len(y):] + y[0:n:]
     return z
 
+
 def mul_nb(x, y):
     res = arr.array('I', [])
     for i in range(len(x)):
-            mult_1 = (mul_matrices(shift_l(x, i), lambda_matr))
-            mult_2 = (mul_matrices(mult_1, shift_l(y, i)))
-            res.append(mult_2[0])
+        mult_1 = (mul_matrices(shift_l(x, i), lambda_matr))
+        mult_2 = (mul_matrices(mult_1, shift_l(y, i)))
+        res.append(mult_2[0])
     return res
+
 
 check_existance(m)
 zero = generate_constant_0_1(0)
@@ -189,11 +194,9 @@ square = square_nb(a)
 trace = trace_nb(a)
 multiplication = mul_nb(a, b)
 
-
 addition_str = ''.join(map(str, addition))
 square_str = ''.join(map(str, square))
 multiplication_str = ''.join(map(str, multiplication))
-
 
 if sys == '1':
     print("A+B=", addition_str)
@@ -206,4 +209,3 @@ else:
     print("A^2 hex=", bin_str_to_hex_str(square_str))
     print("Tr(A)=", trace)
     print("A*B hex =", bin_str_to_hex_str(multiplication_str))
-
