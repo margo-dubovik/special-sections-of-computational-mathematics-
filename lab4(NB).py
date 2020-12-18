@@ -280,9 +280,16 @@ def test_func():
     test1 = lb.comparison(mul_nb(addition, n), addition_nb(mul_nb(a, n), mul_nb(b, n)))
     print("(A+B)*N=?=A*N+B*N:", test1)
     n_m = arr.array('I', [1 for i in range(m)])  # n_m = 2^m - 1
-    test2 = degree_of_long_nb(a, n_m)
-    lb.remove_start_zeros(test2)
-    print("c^(2^m - 1) =?= 1 :", test2)
+    n1 = arr.array('I', [0, 1])
+    while len(n1) != 251:
+        n1.insert(0, 0)
+    start = time.time()
+    test2 = degree_of_long_nb(n1, n_m)
+    end = time.time()
+    print("c^(2^m - 1)  time (sec):", end - start)
+    test3 = lb.comparison(test2, one)
+    print("c^(2^m - 1) =?= 1 :", test3)
+
 
 
 test_func()
