@@ -276,9 +276,11 @@ else:
     print("A^N hex =", bin_str_to_hex_str(degr_str))
 
 
-def test_func():
+def test_func_1():
     test1 = lb.comparison(mul_nb(addition, n), addition_nb(mul_nb(a, n), mul_nb(b, n)))
     print("(A+B)*N=?=A*N+B*N:", test1)
+
+def test_func_2():
     n_m = arr.array('I', [1 for i in range(m)])  # n_m = 2^m - 1
     n1 = arr.array('I', [0, 1])
     while len(n1) != 251:
@@ -290,8 +292,6 @@ def test_func():
     test3 = lb.comparison(test2, one)
     print("c^(2^m - 1) =?= 1 :", test3)
 
-
-
-test_func()
+test_func_1()
 
 #N= 32ABCD (len=6)
