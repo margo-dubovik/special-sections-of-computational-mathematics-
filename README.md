@@ -1,6 +1,9 @@
-# Dubovik_FI-83_lab1
-lab1_main.py - code of lab1.
+Long modular arithmetic algorithms
+ 
+long_basic - long arithmetic functions
 
-long_basic - functions from lab1, required for lab2.
+long_modular - long modular arithmetic functions
 
-long_modular - code of lab2.
+polynomial_bas - long arithmetic in the GF(2) in polynomial basis
+
+normal_bas - long arithmetic in the GF(2) in normal basis
