@@ -1,4 +1,4 @@
-Long modular arithmetic algorithms
+Long modular arithmetic cryptographic algorithms
  
 long_basic - long arithmetic functions
 
